@@ -1,0 +1,227 @@
+C51 COMPILER V9.60.7.0   BTH4_1                                                            12/17/2024 21:14:43 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE BTH4_1
+OBJECT MODULE PLACED IN .\Objects\BTH4_1.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE BTH4_1.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\BT
+                    -H4_1.lst) TABS(2) OBJECT(.\Objects\BTH4_1.obj)
+
+line level    source
+
+   1          #include <REGX51.H>
+   2          // Khai báo chân giao ti?p LCD16x2 4bit
+   3          #define LCD_RS P2_0
+   4          #define LCD_RW P2_1
+   5          #define LCD_EN P2_2
+   6          #define LCD_D4 P2_4
+   7          #define LCD_D5 P2_5
+   8          #define LCD_D6 P2_6
+   9          #define LCD_D7 P2_7
+  10          // Khai báo chân giao ti?p DS18B20
+  11          #define DQ P0_0
+  12          unsigned char temp; // Bi?n luu giá tr? nhi?t d?
+  13          void delay_us(unsigned int t) {
+  14   1          unsigned int i;
+  15   1          for (i = 0; i < t; i++) ;
+  16   1      }    
+  17          // Hàm delay mili giây
+  18          void delay_ms(unsigned int t) {
+  19   1          unsigned int i, j;
+  20   1          for (i = 0; i < t; i++)
+  21   1          for (j = 0; j < 125; j++); // Tùy thu?c vào t?n s? CPU
+  22   1      }
+  23          
+  24          // Hàm delay chuyên bi?t cho DS18B20
+  25          void delay_18B20(unsigned int ti) {
+  26   1        while(ti--);
+  27   1      }
+  28          
+  29          // Kh?i t?o DS18B20
+  30          void Init_18B20(void) {
+  31   1          DQ = 1;
+  32   1          delay_18B20(8); // T?o xung reset
+  33   1          DQ = 0;
+  34   1          delay_18B20(65);
+  35   1          DQ = 1;
+  36   1          delay_18B20(20); // T?o xung reset
+  37   1      }
+  38          
+  39          
+  40          unsigned char ReadOneChar(void) {
+  41   1          unsigned char i=0;
+  42   1          unsigned char dat = 0;
+  43   1          for (i = 8; i>0; i--) {
+  44   2              DQ = 0;
+  45   2              dat >>= 1;
+  46   2              DQ = 1;
+  47   2              if (DQ) {
+  48   3              dat |= 0x80;
+  49   3              }
+  50   2              delay_18B20(4);
+  51   2          }
+  52   1          return dat;
+  53   1      }
+  54          void WriteOneChar(unsigned char dat) {
+C51 COMPILER V9.60.7.0   BTH4_1                                                            12/17/2024 21:14:43 PAGE 2   
+
+  55   1          unsigned char i=0;
+  56   1          for (i = 8; i >0; i--) {
+  57   2              DQ = 0;
+  58   2              DQ = dat & 0x01;
+  59   2              delay_18B20(5);
+  60   2              DQ = 1;
+  61   2              dat >>= 1;
+  62   2          }
+  63   1      }
+  64          
+  65          // Ð?c nhi?t d? t? DS18B20
+  66          void ReadTemperature(void) {
+  67   1          unsigned char a = 0;
+  68   1          unsigned char b = 0;  
+  69   1          Init_18B20();
+  70   1          WriteOneChar(0xCC); // Skip ROM
+  71   1          WriteOneChar(0x44); // Convert T
+  72   1          delay_18B20(10);      // Ch? chuy?n d?i
+  73   1          Init_18B20();
+  74   1          WriteOneChar(0xCC); // Skip ROM
+  75   1          WriteOneChar(0xBE); // Read Scratchpad
+  76   1          delay_18B20(10);
+  77   1          a = ReadOneChar(); // Ð?c giá tr? low
+  78   1          b = ReadOneChar(); // Ð?c giá tr? high
+  79   1          temp = ((b*256+a) >> 4);
+  80   1          EA=1;                         // X? lý giá tr? nhi?t d?
+  81   1      }
+  82          
+  83          // Kích LCD_EN d? LCD nh?n l?nh
+  84          void LCD_Enable(void) {
+  85   1          LCD_EN = 1;
+  86   1          delay_us(3);
+  87   1          LCD_EN = 0;
+  88   1          delay_us(50);
+  89   1      }
+  90          
+  91          // G?i 4 bit d? li?u ra LCD
+  92          void LCD_Send4Bit(unsigned char Data) {
+  93   1          LCD_D4 = Data & 0x01;
+  94   1          LCD_D5 = (Data >> 1) & 1;
+  95   1          LCD_D6 = (Data >> 2) & 1;
+  96   1          LCD_D7 = (Data >> 3) & 1;
+  97   1      }
+  98          
+  99          // G?i 1 l?nh t?i LCD
+ 100          void LCD_SendCommand(unsigned char command) {
+ 101   1          LCD_Send4Bit(command >> 4); // G?i 4 bit cao
+ 102   1          LCD_Enable();
+ 103   1          LCD_Send4Bit(command);     // G?i 4 bit th?p
+ 104   1          LCD_Enable();
+ 105   1      }
+ 106          
+ 107          // Xóa màn hình LCD
+ 108          void LCD_Clear() {
+ 109   1          LCD_SendCommand(0x01);
+ 110   1          delay_us(10);
+ 111   1      }
+ 112          
+ 113          // Kh?i t?o LCD
+ 114          void LCD_Init() {
+ 115   1          LCD_Send4Bit(0x00);
+ 116   1          delay_ms(20);
+C51 COMPILER V9.60.7.0   BTH4_1                                                            12/17/2024 21:14:43 PAGE 3   
+
+ 117   1          LCD_RS = 0;
+ 118   1          LCD_RW = 0;
+ 119   1      
+ 120   1          LCD_Send4Bit(0x03);
+ 121   1          LCD_Enable();
+ 122   1          delay_ms(5);
+ 123   1          LCD_Enable();
+ 124   1          delay_us(100);
+ 125   1          LCD_Enable();
+ 126   1          LCD_Send4Bit(0x02);
+ 127   1          LCD_Enable();
+ 128   1          LCD_SendCommand(0x28); // Ch? d? 4 bit, 2 dòng, font 5x8
+ 129   1          LCD_SendCommand(0x0C); // B?t màn hình, t?t con tr?
+ 130   1          LCD_SendCommand(0x06);
+ 131   1          LCD_SendCommand(0x01);// Tang con tr?, không d?ch màn hình
+ 132   1      }
+ 133          
+ 134          // Ð?t con tr? LCD
+ 135          void LCD_Gotoxy(unsigned char x, unsigned char y) {
+ 136   1        unsigned char address;
+ 137   1          if (!y) address = (0x80 + x);
+ 138   1          else address = (0xC0 + x);
+ 139   1          delay_us(1000);
+ 140   1          LCD_SendCommand(address);
+ 141   1          delay_us(50);
+ 142   1      }
+ 143          
+ 144          // Hi?n th? 1 ký t? lên LCD
+ 145          void LCD_PutChar(unsigned char Data) {
+ 146   1          LCD_RS = 1;
+ 147   1          LCD_SendCommand(Data);
+ 148   1          LCD_RS=0;
+ 149   1      }
+ 150          
+ 151          // Hi?n th? chu?i ký t? lên LCD
+ 152          void LCD_Puts(char *s) {
+ 153   1          while (*s) {
+ 154   2              LCD_PutChar(*s);
+ 155   2              s++;
+ 156   2          }
+ 157   1      }
+ 158          
+ 159          // Hi?n th? giá tr? nhi?t d? lên LCD
+ 160          void TempShow(unsigned char z) {
+ 161   1          LCD_Puts("Nhiet do: ");
+ 162   1          
+ 163   1          if (z >= 100) { 
+ 164   2              // N?u s? có hàng tram
+ 165   2              LCD_PutChar((z / 100) + 48);  // Hi?n th? s? hàng tram
+ 166   2          }
+ 167   1      
+ 168   1          if (z >= 10) {
+ 169   2              // N?u s? có hàng ch?c
+ 170   2              LCD_PutChar((z % 100 / 10) + 48); // Hi?n th? s? hàng ch?c
+ 171   2          } else if (z < 100) {
+ 172   2              // N?u s? nh? hon 10 và không có hàng tram, thêm '0'
+ 173   2              LCD_PutChar('0');
+ 174   2          }
+ 175   1      
+ 176   1          LCD_PutChar((z % 10) + 48);  // Hi?n th? s? hàng don v?
+ 177   1          LCD_PutChar(0xDF); // Hi?n th? ký hi?u d? °
+ 178   1          LCD_Puts("F");
+C51 COMPILER V9.60.7.0   BTH4_1                                                            12/17/2024 21:14:43 PAGE 4   
+
+ 179   1      }
+ 180          
+ 181          // Chuong trình chính
+ 182          unsigned char temp; 
+ 183          void main() {
+ 184   1          LCD_Init();       // Kh?i t?o LCD
+ 185   1          delay_ms(200);    // Ch? ?n d?nh
+ 186   1          LCD_Puts("Do nhiet do...");
+ 187   1          delay_ms(500);
+ 188   1          LCD_Clear();
+ 189   1          LCD_Gotoxy(0,1);
+ 190   1          while (1) {
+ 191   2              LCD_Gotoxy(0,0);
+ 192   2              ReadTemperature(); // Ð?c nhi?t d?
+ 193   2              TempShow(temp*9/5+32); 
+ 194   2              // Hi?n th? nhi?t d?
+ 195   2              delay_ms(500);     // 0.5 giây d?c m?t l?n
+ 196   2          }
+ 197   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    604    ----
+   CONSTANT SIZE    =     28    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

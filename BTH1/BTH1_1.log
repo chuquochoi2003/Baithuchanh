@@ -1,0 +1,11 @@
+0	1	mikroc8051.exe -MSF -DBG -pAT89C51 -ES -DL -O11111114 -fo10 -N"D:\Chuquochoi_BTH\BTH1\BTH1_1.mcp51" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for 8051\defs\" -SP"C:\Users\Public\Documents\Mikroelektronika\mikroC PRO for 8051\Uses\ATMEL\" -SP"D:\Chuquochoi_BTH\BTH1\" "BTH1_1.c" "__Lib_Math.mcl" "__Lib_MathDouble.mcl" "__Lib_System.mcl" "__Lib_Delays.mcl" "__Lib_UART_Timer1.mcl" "__Lib_CType.mcl" "__Lib_CString.mcl" "__Lib_CStdlib.mcl" "__Lib_CMath.mcl" "__Lib_Conversions.mcl" "__Lib_Sprintf.mcl" "__Lib_PrintOut.mcl" "__Lib_Sprinti.mcl" "__Lib_Sprintl.mcl" "__Lib_Time.mcl" "__Lib_Trigonometry.mcl" "__Lib_Button.mcl" "__Lib_Keypad4x4.mcl" "__Lib_Manchester.mcl" "__Lib_OneWire.mcl" "__Lib_PS2.mcl" "__Lib_Sound.mcl" "__Lib_SoftI2C.mcl" "__Lib_SoftSPI.mcl" "__Lib_SoftUART.mcl" "__Lib_GlcdFonts.mcl" "__Lib_Glcd.mcl" "__Lib_LcdConsts.mcl" "__Lib_Lcd.mcl" "__Lib_RS485.mcl" "__Lib_T6963C.mcl"	 
+diagnostics: 0	122	Compilation Started	BTH1_1.c
+diagnostics: 69	123	Compiled Successfully	BTH1_1.c
+diagnostics: 0	127	All files Compiled in 47 ms	 
+hint: 0	1144	Used BDATA RAM (bytes): 0 (1%) Free BDATA RAM (bytes): 16 (99%)	Used BDATA RAM (bytes): 0 (1%) Free BDATA RAM (bytes): 16 (99%)
+hint: 0	1144	Used DATA RAM (bytes): 31 (30%) Free DATA RAM (bytes): 73 (70%)	Used DATA RAM (bytes): 31 (30%) Free DATA RAM (bytes): 73 (70%)
+hint: 0	1144	Used ROM (bytes): 321 (8%)  Free ROM (bytes): 3775 (92%)	Used ROM (bytes): 321 (8%)  Free ROM (bytes): 3775 (92%)
+diagnostics: 0	125	Project Linked Successfully	BTH1_1.mcp51
+diagnostics: 0	128	Linked in 16 ms	 
+diagnostics: 0	129	Project 'BTH1_1.mcp51' completed: 219 ms	 
+diagnostics: 0	103	Finished successfully: 17 Thg12 2024, 16:21:46	BTH1_1.mcp51

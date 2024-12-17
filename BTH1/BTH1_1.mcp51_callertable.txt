@@ -1,0 +1,5 @@
+main
+	__CC2D
+	display_name
+		display_letter
+			delay_short

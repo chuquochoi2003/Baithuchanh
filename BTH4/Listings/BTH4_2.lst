@@ -1,0 +1,197 @@
+C51 COMPILER V9.60.7.0   BTH4_2                                                            12/17/2024 21:19:01 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE BTH4_2
+OBJECT MODULE PLACED IN .\Objects\BTH4_2.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE BTH4_2.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\BT
+                    -H4_2.lst) TABS(2) OBJECT(.\Objects\BTH4_2.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          sbit mode = P1^0;
+   3          sbit Set = P1^1;
+   4          sbit Up = P1^2;
+   5          sbit Down = P1^3 ;
+   6          sbit DQ = P3^7 ;
+   7          sbit l1 = P2^0;
+   8          sbit l2 = P2^1 ;
+   9          sbit l3 = P2^2;
+  10          sbit l4 = P2^3; 
+  11          bit sel, set2, upl,up2, downl, down2;
+  12          unsigned char sol[10]={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90};
+  13          int nhiet_thuc,k,d,i;
+  14          
+  15          unsigned char Data, Display, tome, index, set, bat_nhay, read_time;
+  16          char sec, hour, min, day, date, month, year, year_20,tt;
+  17          void delay(unsigned int i)
+  18          {
+  19   1      while(i--);
+  20   1      }
+  21          
+  22          void delay_18B20 (unsigned int i)
+  23          
+  24          {
+  25   1      while (i--);
+  26   1      }
+  27          
+  28          void Init_DS18B20 (void)
+  29          {
+  30   1      unsigned char x=0;
+  31   1      DQ = 1;
+  32   1      delay_18B20(8);
+  33   1      DQ = 0;
+  34   1      delay_18B20(80);
+  35   1      DQ = 1;
+  36   1      delay_18B20(14);
+  37   1      x=DQ;
+  38   1      delay_18B20(20);
+  39   1      }
+  40          
+  41          unsigned char ReadOneChar(void)
+  42          {
+  43   1        unsigned char i =0;
+  44   1        unsigned char dat = 0;
+  45   1        for (i=8;i>0;i--)
+  46   1        {
+  47   2          DQ = 0;
+  48   2          dat>>=1;
+  49   2          DQ = 1;
+  50   2          if(DQ)
+  51   2          dat|=0x80;
+  52   2          delay_18B20(4);
+  53   2        }
+  54   1      return(dat);
+C51 COMPILER V9.60.7.0   BTH4_2                                                            12/17/2024 21:19:01 PAGE 2   
+
+  55   1       }
+  56          void WriteOneChar (unsigned char dat)
+  57          {
+  58   1      unsigned char i = 0;
+  59   1      for ( i = 8; i > 0 ;i--)
+  60   1      {
+  61   2      DQ = 0;
+  62   2      DQ = dat&0x01;
+  63   2      delay_18B20 (5);
+  64   2      DQ = 1;
+  65   2      dat>>=1;
+  66   2      }
+  67   1      }
+  68          
+  69          void ReadTemp (void)
+  70          {
+  71   1      unsigned char a = 0 ;
+  72   1      unsigned char b = 0 ;
+  73   1      unsigned char c = 0;
+  74   1      Init_DS18B20();
+  75   1      WriteOneChar(0xCC); 
+  76   1      WriteOneChar(0x44);
+  77   1      delay_18B20 (100);
+  78   1      
+  79   1      Init_DS18B20(); 
+  80   1      WriteOneChar(0xCC); 
+  81   1      WriteOneChar (0xBE);
+  82   1      delay_18B20(100);
+  83   1      a=ReadOneChar();
+  84   1      b=ReadOneChar();
+  85   1      nhiet_thuc=b<<4;
+  86   1      nhiet_thuc+=(a&0xf0)>>4;
+  87   1      // nhiet_thuc=(int) (nhiet_thuc);
+  88   1      }
+  89          void nutnhan(void)
+  90          {
+  91   1        if(!mode)
+  92   1        {i++;
+  93   2          Display=1;
+  94   2          set=0;
+  95   2          if(i==2) {i=0;Display=0;}
+  96   2        }
+  97   1          if(mode==0) {delay(1000); while(mode==0); delay(1000);}
+  98   1          if(Display==0)
+  99   1          {
+ 100   2            if(Set==0)
+ 101   2            {
+ 102   3              set++;
+ 103   3              delay(1000);while(Set==0);delay(1000);
+ 104   3              if(set==2) {set=0;}
+ 105   3            }
+ 106   2            if(set==1)
+ 107   2            { if(nhiet_thuc<99)
+ 108   3              if(!Up) {nhiet_thuc=nhiet_thuc+1; delay(9000); }
+ 109   3              if(!Down) {nhiet_thuc=nhiet_thuc-1;delay(9000);}
+ 110   3            }
+ 111   2          }
+ 112   1        }
+ 113          void hien_thi()
+ 114          {if(nhiet_thuc>99)
+ 115   1        nhiet_thuc=99;
+ 116   1        if(nhiet_thuc<1)
+C51 COMPILER V9.60.7.0   BTH4_2                                                            12/17/2024 21:19:01 PAGE 3   
+
+ 117   1        nhiet_thuc=0;
+ 118   1        for (k=0;k<100;k++)
+ 119   1        {P0=0xff;
+ 120   2          l4=0;
+ 121   2          P0=sol[nhiet_thuc/10];
+ 122   2          delay(90);
+ 123   2          l4=1; 
+ 124   2          P0=0xff;
+ 125   2          
+ 126   2          l3=0;
+ 127   2          P0=sol[nhiet_thuc%10];
+ 128   2          delay(90);
+ 129   2          l3=1;
+ 130   2          P0=0xff;  
+ 131   2          
+ 132   2          l2=0;
+ 133   2          P0=0x9c;
+ 134   2          delay(90);
+ 135   2          l2=1;
+ 136   2          P0=0xff;
+ 137   2          //
+ 138   2          l1=0;
+ 139   2        P0=0xc6;
+ 140   2        delay(90);
+ 141   2          l1=1;
+ 142   2        P0=0xff;
+ 143   2        }
+ 144   1      }
+ 145          void main()
+ 146          { P1=0xff;
+ 147   1        d=0;
+ 148   1        Init_DS18B20();
+ 149   1        while(1)
+ 150   1        {P1=0xff;
+ 151   2        nutnhan(); 
+ 152   2          if(set!=1)
+ 153   2        ReadTemp();
+ 154   2          if(set==1)
+ 155   2            delay(10000000);
+ 156   2          hien_thi();
+ 157   2        }
+ 158   1      }
+ 159          
+ 160              
+ 161            
+ 162              
+ 163              
+ 164              
+ 165                  
+ 166              
+ 167            
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    520    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     34       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      6    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V9.60.7.0   BTH4_2                                                            12/17/2024 21:19:01 PAGE 4   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

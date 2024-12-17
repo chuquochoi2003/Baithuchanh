@@ -1,0 +1,79 @@
+C51 COMPILER V9.60.7.0   BTH5_1                                                            12/17/2024 21:27:02 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE BTH5_1
+OBJECT MODULE PLACED IN .\Objects\BTH5_1.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE BTH5_1.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\BT
+                    -H5_1.lst) TABS(2) OBJECT(.\Objects\BTH5_1.obj)
+
+line level    source
+
+   1          #include <REGX51.H>
+   2          //DINH NGHIA CAC CHAN PIN
+   3          #define LED1 P2_0
+   4          #define LED2 P2_1
+   5          #define LED3 P2_2
+   6          #define LED4 P2_3
+   7          char LED_7_THANH[10] = {0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90};
+   8          int so=0;
+   9          int nghin,tram,chuc,dv;
+  10          void delay_ms(int x)
+  11          {
+  12   1        int i,j;
+  13   1        for(i=0;i<x;i++){
+  14   2          for(j=0;j<125;j++){
+  15   3        }
+  16   2      }
+  17   1        }
+  18          
+  19          void hienthi_LED_7_THANH(int x)
+  20          {
+  21   1        nghin = x/1000;
+  22   1        tram = x%10000/100;
+  23   1        chuc = x%100/10;
+  24   1        dv = x%10;
+  25   1        LED1=0;
+  26   1        LED2=0;
+  27   1        LED3=0;
+  28   1        LED4=0;
+  29   1        P0 = LED_7_THANH[nghin];LED1=1;delay_ms(2);LED1=0;
+  30   1        P0 = LED_7_THANH[tram];LED2=2;delay_ms(2);LED2=0;
+  31   1        P0 = LED_7_THANH[chuc];LED3=3;delay_ms(2);LED3=0;
+  32   1        P0 = LED_7_THANH[dv];LED4=4;delay_ms(2);LED4=0;
+  33   1      } 
+  34          void ham_ngat_ngoai0(void)interrupt 0
+  35          {
+  36   1        so++;
+  37   1      }
+  38          void ham_ngat_ngoai1(void)interrupt 2
+  39          {
+  40   1        so--;
+  41   1      }
+  42          void main()
+  43          {
+  44   1          EX0=1;
+  45   1          IT0=1;
+  46   1          EX1=1;
+  47   1          IT1=1;
+  48   1          EA=1;
+  49   1        while(1)
+  50   1        {
+  51   2      hienthi_LED_7_THANH(so);
+  52   2        }
+  53   1      }
+
+C51 COMPILER V9.60.7.0   BTH5_1                                                            12/17/2024 21:27:02 PAGE 2   
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    242    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     20    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

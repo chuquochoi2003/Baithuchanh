@@ -1,0 +1,76 @@
+C51 COMPILER V9.60.7.0   BTH6                                                              12/17/2024 21:32:04 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE BTH6
+OBJECT MODULE PLACED IN .\Objects\BTH6.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE BTH6.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\BTH6
+                    -.lst) TABS(2) OBJECT(.\Objects\BTH6.obj)
+
+line level    source
+
+   1          #include <REGX51.H>
+   2          
+   3          // Khai báo các chân LED
+   4          sbit led1 = P1^0;
+   5          sbit led2 = P1^1;
+   6          sbit led3 = P1^2;
+   7          sbit led4 = P1^3;
+   8          
+   9          // Ch? d? t?n s? nh?p nháy cho các LED (theo ms)
+  10          #define LED1_DELAY 1000
+  11          #define LED2_DELAY 600
+  12          #define LED3_DELAY 400
+  13          #define LED4_DELAY 150
+  14          
+  15          // Hàm delay d? t?o d? tr? theo mili giây
+  16          void delay(unsigned int ms) {
+  17   1          unsigned int i, j;
+  18   1          for (i = 0; i < ms; i++) {
+  19   2              for (j = 0; j < 123; j++);  // Kho?ng 1 ms t?i t?n s? 12MHz
+  20   2          }
+  21   1      }
+  22          
+  23          // Hàm chính
+  24          void main(void) {
+  25   1          while (1) {
+  26   2              // Ði?u khi?n LED1
+  27   2              led1 = 1;  // B?t LED1
+  28   2              delay(LED1_DELAY);
+  29   2              led1 = 0;  // T?t LED1
+  30   2              delay(LED1_DELAY);
+  31   2      
+  32   2              // Ði?u khi?n LED2
+  33   2              led2 = 1;  // B?t LED2
+  34   2              delay(LED2_DELAY);
+  35   2              led2 = 0;  // T?t LED2
+  36   2              delay(LED2_DELAY);
+  37   2      
+  38   2              // Ði?u khi?n LED3
+  39   2              led3 = 1;  // B?t LED3
+  40   2              delay(LED3_DELAY);
+  41   2              led3 = 0;  // T?t LED3
+  42   2              delay(LED3_DELAY);
+  43   2      
+  44   2              // Ði?u khi?n LED4
+  45   2              led4 = 1;  // B?t LED4
+  46   2              delay(LED4_DELAY);
+  47   2              led4 = 0;  // T?t LED4
+  48   2              delay(LED4_DELAY);
+  49   2          }
+  50   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     87    ----
+C51 COMPILER V9.60.7.0   BTH6                                                              12/17/2024 21:32:04 PAGE 2   
+
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

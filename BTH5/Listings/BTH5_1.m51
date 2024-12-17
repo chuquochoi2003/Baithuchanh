@@ -1,0 +1,207 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    12/17/2024  21:27:02  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\STARTUP.obj, .\Objects\BTH5_1.obj TO .\Objects\BTH5_1 PRINT (.\Listings\BTH5_1.m51
+>> )
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\STARTUP.obj (?C_STARTUP)
+  .\Objects\BTH5_1.obj (BTH5_1)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?SIDIV)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?UIDIV)
+
+
+LINK MAP OF MODULE:  .\Objects\BTH5_1 (?C_STARTUP)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0014H     UNIT         ?DT?BTH5_1
+            IDATA   001CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+                    0006H     000DH                  *** GAP ***
+            CODE    0013H     0003H     ABSOLUTE     
+                    0016H     07EAH                  *** GAP ***
+            CODE    0800H     009FH     UNIT         ?PR?_HIENTHI_LED_7_THANH?BTH5_1
+            CODE    089FH     008CH     UNIT         ?C_C51STARTUP
+            CODE    092BH     008BH     UNIT         ?C?LIB_CODE
+            CODE    09B6H     0026H     UNIT         ?PR?_DELAY_MS?BTH5_1
+            CODE    09DCH     0013H     UNIT         ?PR?MAIN?BTH5_1
+            CODE    09EFH     0011H     UNIT         ?C_INITSEG
+            CODE    0A00H     000DH     UNIT         ?PR?HAM_NGAT_NGOAI0?BTH5_1
+            CODE    0A0DH     000DH     UNIT         ?PR?HAM_NGAT_NGOAI1?BTH5_1
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\BTH5_1 (?C_STARTUP)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?BTH5_1
+  +--> ?C_INITSEG
+
+?PR?MAIN?BTH5_1
+  +--> ?PR?_HIENTHI_LED_7_THANH?BTH5_1
+
+?PR?_HIENTHI_LED_7_THANH?BTH5_1
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  12/17/2024  21:27:02  PAGE 2
+
+
+  +--> ?PR?_DELAY_MS?BTH5_1
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\BTH5_1 (?C_STARTUP)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ?C_STARTUP
+  C:089FH         SEGMENT       ?C_C51STARTUP
+  I:001CH         SEGMENT       ?STACK
+  C:0000H         PUBLIC        ?C_STARTUP
+  D:00E0H         SYMBOL        ACC
+  D:00F0H         SYMBOL        B
+  D:0083H         SYMBOL        DPH
+  D:0082H         SYMBOL        DPL
+  N:0000H         SYMBOL        IBPSTACK
+  N:0100H         SYMBOL        IBPSTACKTOP
+  N:0080H         SYMBOL        IDATALEN
+  C:08A2H         SYMBOL        IDATALOOP
+  N:0000H         SYMBOL        PBPSTACK
+  N:0100H         SYMBOL        PBPSTACKTOP
+  N:0000H         SYMBOL        PDATALEN
+  N:0000H         SYMBOL        PDATASTART
+  N:0000H         SYMBOL        PPAGE
+  N:0000H         SYMBOL        PPAGEENABLE
+  D:00A0H         SYMBOL        PPAGE_SFR
+  D:0081H         SYMBOL        SP
+  C:089FH         SYMBOL        STARTUP1
+  N:0000H         SYMBOL        XBPSTACK
+  N:0000H         SYMBOL        XBPSTACKTOP
+  N:0000H         SYMBOL        XDATALEN
+  N:0000H         SYMBOL        XDATASTART
+  C:0000H         LINE#         126
+  C:089FH         LINE#         133
+  C:08A1H         LINE#         134
+  C:08A2H         LINE#         135
+  C:08A3H         LINE#         136
+  C:08A5H         LINE#         185
+  C:08A8H         LINE#         196
+  -------         ENDMOD        ?C_STARTUP
+
+  -------         MODULE        BTH5_1
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  B:00A8H.7       PUBLIC        EA
+  C:0800H         PUBLIC        _hienthi_LED_7_THANH
+  B:00A0H.0       PUBLIC        P2_0
+  B:00A0H.1       PUBLIC        P2_1
+  B:00A0H.2       PUBLIC        P2_2
+  B:00A0H.3       PUBLIC        P2_3
+  D:0008H         PUBLIC        nghin
+  D:000AH         PUBLIC        chuc
+  C:09DCH         PUBLIC        main
+  D:000CH         PUBLIC        tram
+  D:000EH         PUBLIC        LED_7_THANH
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  12/17/2024  21:27:02  PAGE 3
+
+
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  B:00A8H.2       PUBLIC        EX1
+  B:0088H.2       PUBLIC        IT1
+  C:09B6H         PUBLIC        _delay_ms
+  D:0018H         PUBLIC        dv
+  D:001AH         PUBLIC        so
+  C:0A00H         PUBLIC        ham_ngat_ngoai0
+  C:0A0DH         PUBLIC        ham_ngat_ngoai1
+  -------         PROC          _DELAY_MS
+  D:0006H         SYMBOL        x
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:09B6H         LINE#         10
+  C:09B6H         LINE#         11
+  C:09B6H         LINE#         13
+  C:09C6H         LINE#         14
+  C:09C9H         LINE#         15
+  C:09D4H         LINE#         16
+  C:09DBH         LINE#         17
+  -------         ENDPROC       _DELAY_MS
+  -------         PROC          _HIENTHI_LED_7_THANH
+  D:0002H         SYMBOL        x
+  C:0800H         LINE#         19
+  C:0804H         LINE#         20
+  C:0804H         LINE#         21
+  C:080FH         LINE#         22
+  C:082BH         LINE#         23
+  C:0847H         LINE#         24
+  C:0856H         LINE#         25
+  C:0858H         LINE#         26
+  C:085AH         LINE#         27
+  C:085CH         LINE#         28
+  C:085EH         LINE#         29
+  C:0871H         LINE#         30
+  C:0880H         LINE#         31
+  C:088FH         LINE#         32
+  C:089EH         LINE#         33
+  -------         ENDPROC       _HIENTHI_LED_7_THANH
+  -------         PROC          HAM_NGAT_NGOAI0
+  C:0A00H         LINE#         34
+  C:0A02H         LINE#         36
+  C:0A0AH         LINE#         37
+  -------         ENDPROC       HAM_NGAT_NGOAI0
+  -------         PROC          HAM_NGAT_NGOAI1
+  C:0A0DH         LINE#         38
+  C:0A0FH         LINE#         40
+  C:0A17H         LINE#         41
+  -------         ENDPROC       HAM_NGAT_NGOAI1
+  -------         PROC          MAIN
+  C:09DCH         LINE#         42
+  C:09DCH         LINE#         43
+  C:09DCH         LINE#         44
+  C:09DEH         LINE#         45
+  C:09E0H         LINE#         46
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  12/17/2024  21:27:02  PAGE 4
+
+
+  C:09E2H         LINE#         47
+  C:09E4H         LINE#         48
+  C:09E6H         LINE#         49
+  C:09E6H         LINE#         50
+  C:09E6H         LINE#         51
+  C:09EDH         LINE#         52
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        BTH5_1
+
+  -------         MODULE        ?C?SIDIV
+  C:092BH         PUBLIC        ?C?SIDIV
+  -------         ENDMOD        ?C?SIDIV
+
+  -------         MODULE        ?C?UIDIV
+  C:0961H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0117H BYTE (13%) *
+******************************************************************************
+
+Program Size: data=29.0 xdata=0 code=547
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
